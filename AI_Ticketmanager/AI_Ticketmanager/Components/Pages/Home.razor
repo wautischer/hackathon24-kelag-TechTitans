@@ -18,16 +18,18 @@ else
                 <th>Title</th>
                 <th>Tags</th>
                 <th>Description</th>
+                <th>Created_at</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var ticket in tickets)
             {
                 <tr>
-                    <td>@ticket.idticket</td>
+                    <td>@ticket.id</td>
                     <td>@ticket.title</td>
                     <td>@ticket.tags</td>
                     <td>@ticket.description</td>
+                    <td>@ticket.created_at</td>
                 </tr>
             }
         </tbody>
