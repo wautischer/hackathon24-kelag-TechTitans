@@ -1,6 +1,6 @@
 using './main.bicep'
 
-param appName = 'AI_Ticketmanager'
+param appName = 'ai_ticketmanager'
 param postfix = 'main'
 param containerImageWithVersion = 'ghcr.io/kelag-hackathon-24/kelag-hackathon-2024-team-4:main' 
 param registryUsername = readEnvironmentVariable('USERNAME')
