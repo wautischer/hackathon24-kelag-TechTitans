@@ -15,6 +15,9 @@ builder.Services.AddScoped<HttpClient>(sp =>
     return new HttpClient { BaseAddress = new Uri(navigationManager.BaseUri) };
 });
 
+builder.Services.AddSingleton<TicketService>();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
