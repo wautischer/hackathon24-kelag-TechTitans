@@ -16,7 +16,7 @@ public class TicketService
             try
             {
                 await conn.OpenAsync();
-                MySqlCommand cmd = new MySqlCommand("SELECT id, title, tags, description FROM tickets", conn);
+                MySqlCommand cmd = new MySqlCommand("SELECT idticket, title, tags, description FROM ticket", conn);
                 DbDataReader dbReader = await cmd.ExecuteReaderAsync();
 
                 while (await dbReader.ReadAsync())
