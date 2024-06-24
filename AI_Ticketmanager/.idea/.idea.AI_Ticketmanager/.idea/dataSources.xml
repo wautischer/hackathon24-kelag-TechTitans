@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:mysql://localhost:3306/tickets-testdata</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="sqldb-hackathon-team4@sql-hackathon-team4.database.windows.net" uuid="b7f36556-9a47-4db4-bb13-3e1e104609ff">
+      <driver-ref>azure.ms</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
+      <jdbc-url>jdbc:sqlserver://sql-hackathon-team4.database.windows.net:1433;database=sqldb-hackathon-team4</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
