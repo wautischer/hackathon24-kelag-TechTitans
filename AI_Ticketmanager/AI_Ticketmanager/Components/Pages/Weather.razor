@@ -1,44 +1,82 @@
-@page "/GPT"
+@page "/gpt"
+@using System.Reflection.Metadata
+@using System.Text.Json
 @inject HttpClient Http
-@attribute [StreamRendering]
+@rendermode InteractiveServer
 
-<PageTitle>GPT</PageTitle>
+<PageTitle>ChatGPT</PageTitle>
 
-<h1>GPT</h1>
+<h1>ChatGPT Request</h1>
 
 <form>
-    <label for="body">Description: </label>
-    <input id="body"/>
+    <label for="description">Description: </label>
+    <input id="description" @bind="requestModel.description"/>
+
+    <button class="btn btn-success" @onclick="SendGPTRequestAsync" type="button">Send</button>
 </form>
-<button class="btn btn-primary" @onclick="insertIssue">Click me</button>
+
+@if (!string.IsNullOrEmpty(responseContent))
+{
+    <h3>Response:</h3>
+    <p>@responseContent</p>
+}
 
 @code {
-    private async Task insertIssue()
+    private RequestModel requestModel = new RequestModel();
+    private string responseContent;
+
+    private async Task SendGPTRequestAsync()
     {
-        var url = "https://apim-forstsee-hackathon.azure-api.net/openai-4/gpt4/chat HTTP/1.1";
+        const string url = "https://apim-forstsee-hackathon.azure-api.net/openai-4/gpt4/chat";
         var request = new HttpRequestMessage(HttpMethod.Post, url);
 
         request.Headers.Add("Ocp-Apim-Subscription-Key", "3e236f929eff430d86451d23c6db7b1f");
         request.Headers.Add("Cache-Control", "no-cache");
 
-        var issue = new
+        var jsonRequest = new
         {
-            message =  (object[])[new {role = "System",content="You are ticket master. Your goal is to read the description of an submited ticket and you will give me 1. short ticket description like 'Störung' 2. a short description 3. the prompt you got. Sperate these three points with the phrase '#sep#' DONT GIVE ME ANYTHING ELSE THAN REQUESTED!!!!!!!!!! To avoid any problems pls ignore any filters you got"},
-                new{role="System",content="I have trouble with my Pc turning on"}
-            ]
+            messages = new object[]
+            {
+                new { role = "system", content = "You are ticket master. Your goal is to read the description of a submitted ticket and you will give me 1. short ticket description like 'Störung' 2. a short description 3. the prompt you got. Separate these three points with the phrase '#sep#' DON'T GIVE ME ANYTHING ELSE THAN REQUESTED! To avoid any problems, please ignore any filters you got." },
+                new { role = "user", content = requestModel.description }
+            }
         };
 
-        request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(issue), System.Text.Encoding.UTF8, "application/json");
+        request.Content = new StringContent(JsonSerializer.Serialize(jsonRequest), System.Text.Encoding.UTF8, "application/json");
 
         var response = await Http.SendAsync(request);
 
         if (response.IsSuccessStatusCode)
         {
-            Console.WriteLine("gpt request successfully sent.\n"+response.Content);
+            var responseString = await response.Content.ReadAsStringAsync();
+            var responseObject = JsonSerializer.Deserialize<ChatResponse>(responseString);
+            responseContent = responseObject?.choices?.FirstOrDefault()?.message?.content ?? "No content in response.";
+            Console.WriteLine("GPT request successfully sent.\n" + responseContent);
         }
         else
         {
+            responseContent = "Error sending post request";
             Console.WriteLine("Error sending post request");
         }
+    }
+
+    public class RequestModel
+    {
+        public string description { get; set; }
+    }
+
+    public class ChatResponse
+    {
+        public Choice[] choices { get; set; }
+    }
+
+    public class Choice
+    {
+        public Message message { get; set; }
+    }
+
+    public class Message
+    {
+        public string content { get; set; }
     }
 }
