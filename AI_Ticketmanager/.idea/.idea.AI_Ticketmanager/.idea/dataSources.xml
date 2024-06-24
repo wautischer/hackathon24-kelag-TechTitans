@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="tickets-testdata@localhost" uuid="b9246505-988f-42be-ba0e-3f4022d4c349">
-      <driver-ref>mysql.8</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/tickets-testdata</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
     <data-source source="LOCAL" name="sqldb-hackathon-team4@sql-hackathon-team4.database.windows.net" uuid="b7f36556-9a47-4db4-bb13-3e1e104609ff">
       <driver-ref>azure.ms</driver-ref>
       <synchronize>true</synchronize>
