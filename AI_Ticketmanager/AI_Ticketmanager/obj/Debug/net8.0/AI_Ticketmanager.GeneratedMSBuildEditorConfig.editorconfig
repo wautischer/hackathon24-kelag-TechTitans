@@ -22,16 +22,16 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9BcHAucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/laurin/RiderProjects/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/Components/Pages/Counter.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9Db3VudGVyLnJhem9y
-build_metadata.AdditionalFiles.CssScope = 
-
 [/Users/laurin/RiderProjects/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/Components/Pages/Error.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9FcnJvci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/laurin/RiderProjects/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/Components/Pages/Home.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9Ib21lLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/laurin/RiderProjects/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/Components/Pages/Issue.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9Jc3N1ZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/laurin/RiderProjects/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/Components/Pages/Weather.razor]
