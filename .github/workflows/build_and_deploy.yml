@@ -44,8 +44,8 @@ jobs:
           context: ./AI_Ticketmanager
           push: true
           tags: |
-            ghcr.io/kelag-hackathon-24/Kelag-Hackathon-2024-Team-4:${{ github.sha }}
-            ghcr.io/kelag-hackathon-24/Kelag-Hackathon-2024-Team-4:${{ github.head_ref || github.ref_name }}
+            ghcr.io/kelag-hackathon-24/kelag-hackathon-2024-team-4:${{ github.sha }}
+            ghcr.io/kelag-hackathon-24/kelag-hackathon-2024-team-4:${{ github.head_ref || github.ref_name }}
 
   deploy-to-azure:
     needs: build-and-test
