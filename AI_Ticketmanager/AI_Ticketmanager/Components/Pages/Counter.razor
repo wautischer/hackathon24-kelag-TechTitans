@@ -1,8 +1,8 @@
-@page "/counter"
+@page "/issue"
 @inject HttpClient Http
 @rendermode InteractiveServer
 
-<PageTitle>Counter</PageTitle>
+<PageTitle>Intert Issue</PageTitle>
 
 <h1>Insert Issue</h1>
 
@@ -11,7 +11,8 @@
 @code {
     private async Task insertIssue()
     {
-        var url = "https://apim-forstsee-hackathon.azure-api.net/github/Kelag-Hackathon-2024-Team-4/issues";
+        const string repoName = "Kelag-Hackathon-2024-Team-4";
+        var url = "https://apim-forstsee-hackathon.azure-api.net/github/"+repoName+"/issues";
         var request = new HttpRequestMessage(HttpMethod.Post, url);
 
         request.Headers.Add("Ocp-Apim-Subscription-Key", "3e236f929eff430d86451d23c6db7b1f");
