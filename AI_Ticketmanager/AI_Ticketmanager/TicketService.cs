@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 public class TicketService
 {
-    private string connectionString = "server=localhost;database=tickets-testdata;user=root;password=root";
+    private string connectionString = "server=sql-hackathon-team4.database.windows.net;database=sqldb-hackathon-team4;user=hackathonTeam4;password=abc#123#";
 
     public async Task<List<Ticket>> GetTicketsAsync()
     {
@@ -16,17 +16,18 @@ public class TicketService
             try
             {
                 await conn.OpenAsync();
-                MySqlCommand cmd = new MySqlCommand("SELECT idticket, title, tags, description FROM ticket", conn);
+                MySqlCommand cmd = new MySqlCommand("SELECT id, title, tags, description, created_at FROM ticket", conn);
                 DbDataReader dbReader = await cmd.ExecuteReaderAsync();
 
                 while (await dbReader.ReadAsync())
                 {
                     tickets.Add(new Ticket
                     {
-                        idticket = dbReader.GetInt32(0),
+                        id = dbReader.GetInt32(0),
                         title = dbReader.GetString(1),
                         tags = dbReader.GetString(2),
-                        description = dbReader.GetString(3)
+                        description = dbReader.GetString(3),
+                        created_at = dbReader.GetDateTime(4)
                     });
                 }
             }
