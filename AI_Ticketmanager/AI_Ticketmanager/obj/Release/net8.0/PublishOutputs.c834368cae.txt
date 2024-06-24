@@ -1,0 +1,7 @@
+/Users/gianlucadebache/repositories/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/out/AI_Ticketmanager
+/Users/gianlucadebache/repositories/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/out/appsettings.Development.json
+/Users/gianlucadebache/repositories/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/out/appsettings.json
+/Users/gianlucadebache/repositories/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/out/AI_Ticketmanager.dll
+/Users/gianlucadebache/repositories/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/out/AI_Ticketmanager.deps.json
+/Users/gianlucadebache/repositories/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/out/AI_Ticketmanager.runtimeconfig.json
+/Users/gianlucadebache/repositories/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/out/AI_Ticketmanager.pdb
