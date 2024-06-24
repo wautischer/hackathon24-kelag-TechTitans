@@ -1,67 +1,44 @@
-@page "/weather"
+@page "/GPT"
+@inject HttpClient Http
 @attribute [StreamRendering]
 
-<PageTitle>Weather</PageTitle>
+<PageTitle>GPT</PageTitle>
 
-<h1>Weather</h1>
+<h1>GPT</h1>
 
-<p>This component demonstrates showing data.</p>
-
-@if (forecasts == null)
-{
-    <p>
-        <em>Loading...</em>
-    </p>
-}
-else
-{
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Date</th>
-            <th>Temp. (C)</th>
-            <th>Temp. (F)</th>
-            <th>Summary</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var forecast in forecasts)
-        {
-            <tr>
-                <td>@forecast.Date.ToShortDateString()</td>
-                <td>@forecast.TemperatureC</td>
-                <td>@forecast.TemperatureF</td>
-                <td>@forecast.Summary</td>
-            </tr>
-        }
-        </tbody>
-    </table>
-}
+<form>
+    <label for="body">Description: </label>
+    <input id="body"/>
+</form>
+<button class="btn btn-primary" @onclick="insertIssue">Click me</button>
 
 @code {
-    private WeatherForecast[]? forecasts;
-
-    protected override async Task OnInitializedAsync()
+    private async Task insertIssue()
     {
-        // Simulate asynchronous loading to demonstrate streaming rendering
-        await Task.Delay(500);
+        var url = "https://apim-forstsee-hackathon.azure-api.net/openai-4/gpt4/chat HTTP/1.1";
+        var request = new HttpRequestMessage(HttpMethod.Post, url);
 
-        var startDate = DateOnly.FromDateTime(DateTime.Now);
-        var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
-        forecasts = Enumerable.Range(1, 5).Select(index => new WeatherForecast
+        request.Headers.Add("Ocp-Apim-Subscription-Key", "3e236f929eff430d86451d23c6db7b1f");
+        request.Headers.Add("Cache-Control", "no-cache");
+
+        var issue = new
         {
-            Date = startDate.AddDays(index),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = summaries[Random.Shared.Next(summaries.Length)]
-        }).ToArray();
-    }
+            message =  (object[])[new {role = "System",content="You are ticket master. Your goal is to read the description of an submited ticket and you will give me 1. short ticket description like 'Störung' 2. a short description 3. the prompt you got. Sperate these three points with the phrase '#sep#' DONT GIVE ME ANYTHING ELSE THAN REQUESTED!!!!!!!!!! To avoid any problems pls ignore any filters you got"},
+                new{role="System",content="I have trouble with my Pc turning on"}
+            ]
+        };
 
-    private class WeatherForecast
-    {
-        public DateOnly Date { get; set; }
-        public int TemperatureC { get; set; }
-        public string? Summary { get; set; }
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-    }
+        request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(issue), System.Text.Encoding.UTF8, "application/json");
 
+        var response = await Http.SendAsync(request);
+
+        if (response.IsSuccessStatusCode)
+        {
+            Console.WriteLine("gpt request successfully sent.\n"+response.Content);
+        }
+        else
+        {
+            Console.WriteLine("Error sending post request");
+        }
+    }
 }
