@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 public class TicketService
 {
+    private string connectionString = "server=localhost;database=tickets-testdata;user=root;password=root";
 
     public async Task<List<Ticket>> GetTicketsAsync()
     {
