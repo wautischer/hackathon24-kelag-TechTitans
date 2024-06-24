@@ -12,22 +12,23 @@
 
 <form>
     <label for="description">Description: </label>
-    <input id="description" @bind="requestModel.description"/>
+    <input id="description" @bind="_requestModel.description"/>
 
-    <button class="btn btn-success" @onclick="SendGPTRequestAsync" type="button">Send</button>
+    <button class="btn btn-success" @onclick="SendGptRequestAsync" type="button">Send</button>
 </form>
 
-@if (!string.IsNullOrEmpty(responseContent))
+@if (!string.IsNullOrEmpty(_responseContent))
 {
     <h3>Response:</h3>
-    <p>@responseContent</p>
+    <p>@_responseContent</p>
 }
 
 @code {
-    private RequestModel requestModel = new RequestModel();
-    private string responseContent;
+    private readonly RequestModel _requestModel = new RequestModel();
+    private string _responseContent = null!;
+    private const string Prompt = "Deine Aufgabe ist es, Issues zu verwalten. Wenn ein Benutzer ein Problem schildert, musst du Folgendes extrahieren: Erstens, einen aussagekräftigen Titel für das Issue, der klar beschreibt, worum es geht. Zweitens, eine kurze Zusammenfassung der übermittelten Beschreibung. Drittens, passende Labels für das Problem, getrennt durch Kommas. Verfügbare Labels sind: bug, documentation, question, wontfix, invalid, help wanted. Die drei Punkte sollen mit % getrennt werden. Die einzelen Punkte sollen nicht nummeriert werden.";
 
-    private async Task SendGPTRequestAsync()
+    private async Task SendGptRequestAsync()
     {
         const string url = "https://apim-forstsee-hackathon.azure-api.net/openai-4/gpt4/chat";
         var request = new HttpRequestMessage(HttpMethod.Post, url);
@@ -40,8 +41,8 @@
             messages = new object[]
             {
                 new { role = "system", content = 
-                    "Deine Aufgabe ist es, Issues zu verwalten. Wenn ein Benutzer ein Problem schildert, musst du Folgendes extrahieren: Erstens, einen aussagekräftigen Titel für das Issue, der klar beschreibt, worum es geht. Zweitens, eine kurze Zusammenfassung der übermittelten Beschreibung. Drittens, passende Labels für das Problem, getrennt durch Kommas. Verfügbare Labels sind: bug, documentation, question, wontfix, invalid, help wanted. Die drei Punkte sollen mit % getrennt werden. Die einzelen Punkte sollen nicht nummeriert werden." },
-                new { role = "user", content = requestModel.description }
+                    Prompt },
+                new { role = "user", content = _requestModel.description }
             }
         };
 
@@ -53,19 +54,19 @@
         {
             var responseString = await response.Content.ReadAsStringAsync();
             var responseObject = JsonSerializer.Deserialize<ChatResponse>(responseString);
-            responseContent = responseObject?.choices?.FirstOrDefault()?.message?.content ?? "No content in response.";
-            if (!responseContent.Equals("No content in response."))
+            _responseContent = responseObject?.choices?.FirstOrDefault()?.message?.content ?? "No content in response.";
+            if (!_responseContent.Equals("No content in response."))
             {
-                var token = responseContent.Split("%");
+                var token = _responseContent.Split("%");
                 var title = token[0];
                 var shortDesc = token[1];
-                var lables = token[2];
-                await InsertIssueAsync(title, shortDesc, lables);
+                var labels = token[2];
+                await InsertIssueAsync(title, shortDesc, labels);
             } 
         }
         else
         {
-            responseContent = "Error sending post request";
+            _responseContent = "Error sending post request";
             Console.WriteLine("Error sending post request");
         }
     }
