@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/gianlucadebache/repositories/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/AI_Ticketmanager.csproj": {}
+    "/Users/laurin/RiderProjects/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/AI_Ticketmanager.csproj": {}
   },
   "projects": {
-    "/Users/gianlucadebache/repositories/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/AI_Ticketmanager.csproj": {
+    "/Users/laurin/RiderProjects/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/AI_Ticketmanager.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/gianlucadebache/repositories/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/AI_Ticketmanager.csproj",
+        "projectUniqueName": "/Users/laurin/RiderProjects/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/AI_Ticketmanager.csproj",
         "projectName": "AI_Ticketmanager",
-        "projectPath": "/Users/gianlucadebache/repositories/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/AI_Ticketmanager.csproj",
-        "packagesPath": "/Users/gianlucadebache/.nuget/packages/",
-        "outputPath": "/Users/gianlucadebache/repositories/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/obj/",
+        "projectPath": "/Users/laurin/RiderProjects/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/AI_Ticketmanager.csproj",
+        "packagesPath": "/Users/laurin/.nuget/packages/",
+        "outputPath": "/Users/laurin/RiderProjects/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/gianlucadebache/.nuget/NuGet/NuGet.Config"
+          "/Users/laurin/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -32,11 +32,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {

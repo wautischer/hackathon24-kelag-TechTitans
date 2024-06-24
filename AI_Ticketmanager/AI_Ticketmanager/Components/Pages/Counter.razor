@@ -1,20 +1,40 @@
 @page "/counter"
+@inject HttpClient Http
 @rendermode InteractiveServer
 
 <PageTitle>Counter</PageTitle>
 
-<h1>Counter</h1>
+<h1>Insert Issue</h1>
 
-<p role="status">Current count: @currentCount</p>
-
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<button class="btn btn-primary" @onclick="insertIssue">Click me</button>
 
 @code {
-    private int currentCount = 0;
-
-    private void IncrementCount()
+    private async Task insertIssue()
     {
-        currentCount++;
-    }
+        var url = "https://apim-forstsee-hackathon.azure-api.net/github/Kelag-Hackathon-2024-Team-4/issues";
+        var request = new HttpRequestMessage(HttpMethod.Post, url);
 
+        request.Headers.Add("Ocp-Apim-Subscription-Key", "3e236f929eff430d86451d23c6db7b1f");
+        request.Headers.Add("Cache-Control", "no-cache");
+
+        var issue = new
+        {
+            title = "Found a bug",
+            body = "I'm having a problem with this.",
+            labels = new string[] { "bug" }
+        };
+
+        request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(issue), System.Text.Encoding.UTF8, "application/json");
+
+        var response = await Http.SendAsync(request);
+
+        if (response.IsSuccessStatusCode)
+        {
+            Console.WriteLine("Issue successfully inserted.");
+        }
+        else
+        {
+            Console.WriteLine("Error inserting issue.");
+        }
+    }
 }
