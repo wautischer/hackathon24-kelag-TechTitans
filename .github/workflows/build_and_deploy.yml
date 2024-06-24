@@ -1,4 +1,4 @@
-name: Build and deploy container image to azure
+# name: Build and deploy container image to azure
 
 # Führt die Pipeline jedes mal aus, wenn eine Änderung in den main-Branch gepushed wird oder manuell über das GitHub-UI ausgelöst wird.
 on:
