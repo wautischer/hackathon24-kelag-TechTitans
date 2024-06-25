@@ -45,6 +45,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        tickets = await TicketService.GetTicketsAsync("ASC");
+        tickets = await TicketService.GetTicketsAsync();
     }
 }

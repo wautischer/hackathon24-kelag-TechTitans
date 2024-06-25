@@ -29,7 +29,7 @@ public class TicketService
         return $"Server=tcp:sql-hackathon-team4.database.windows.net,1433;Initial Catalog=sqldb-hackathon-team4;Persist Security Info=False;User ID=hackathonTeam4;Password={passworddb};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
     }
 
-    public async Task<List<Ticket>> GetTicketsAsync(string orderType)
+    public async Task<List<Ticket>> GetTicketsAsync()
     {
         var tickets = new List<Ticket>();
 
