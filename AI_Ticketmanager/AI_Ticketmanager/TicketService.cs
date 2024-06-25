@@ -19,13 +19,18 @@ public class TicketService
 
     private async Task<string> GetConnectionString()
     {
-        var kvUri = $"https://{keyVaultName}.vault.azure.net/";
+        if (string.IsNullOrEmpty(keyVaultName) || string.IsNullOrEmpty(secretName))
+        {
+            throw new InvalidOperationException("Key Vault name or secret name is not set in environment variables.");
+        }
+
+        var kvUri = $"https://{keyVaultName}.vault.azure.net";
         var client = new SecretClient(new Uri(kvUri), new DefaultAzureCredential());
-        
+
         KeyVaultSecret secret = await client.GetSecretAsync(secretName);
         string password = secret.Value;
 
-        Console.WriteLine($"Secret value: {password}");
+        Console.WriteLine($"Secret value retrieved successfully.");
         
         return $"Server=tcp:sql-hackathon-team4.database.windows.net,1433;Initial Catalog=sqldb-hackathon-team4;Persist Security Info=False;User ID=hackathonTeam4;Password={password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
     }
