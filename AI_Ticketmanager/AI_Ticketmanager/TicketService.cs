@@ -37,7 +37,7 @@ public class TicketService
         try
         {
             await conn.OpenAsync();
-            var cmd = new SqlCommand("SELECT id, title, tags, description, created_at, priority, descriptionLong FROM dbo.tickets order by title "+orderType, conn);
+            var cmd = new SqlCommand("SELECT id, title, tags, description, created_at, priority, descriptionLong FROM dbo.tickets", conn);
             DbDataReader dbReader = await cmd.ExecuteReaderAsync();
 
             while (await dbReader.ReadAsync())
