@@ -8,21 +8,28 @@ using System.Threading.Tasks;
 
 public class TicketService
 {
-    private string keyVaultName = "kv-Hackathon-Team-4";
-    private string secretName = "passwordDB";
-    private string secretValue;
 
-    public async Task<string> GetSecretFromKeyVault()
+    private string passworddb = Environment.GetEnvironmentVariable("PASSWORD_DB");
+    private string connectionString;
+
+    public TicketService()
     {
-        var kvUri = $"https://{keyVaultName}.vault.azure.net";
-        var client = new SecretClient(new Uri(kvUri), new DefaultAzureCredential());
+        connectionString = GetConnectionString().GetAwaiter().GetResult();
+    }
 
-        KeyVaultSecret secret = await client.GetSecretAsync(secretName);
-        secretValue = secret.Value;
+    private async Task<string> GetConnectionString()
+    {
+        Console.WriteLine(passworddb);
+        if (string.IsNullOrEmpty(passworddb) )
+        {
+            throw new InvalidOperationException("Key Vault name or secret name is not set in environment variables.");
+        }
 
-        Console.WriteLine($"Secret retrieved successfully.");
-
-        return secretValue;
+       
+       
+        Console.WriteLine($"Secret value retrieved successfully.");
+        
+        return $"Server=tcp:sql-hackathon-team4.database.windows.net,1433;Initial Catalog=sqldb-hackathon-team4;Persist Security Info=False;User ID=hackathonTeam4;Password={passworddb};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
     }
 
     public async Task<List<Ticket>> GetTicketsAsync()
