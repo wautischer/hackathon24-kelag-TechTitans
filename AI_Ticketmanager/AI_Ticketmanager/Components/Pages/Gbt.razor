@@ -19,6 +19,10 @@
     <button class="btn btn-success" @onclick="SendGptRequestAsync" type="button">Send</button>
 </form>
 
+<div id="loading-container" style="display: @_loadingDisplay;">
+    <div id="loading"></div>
+</div>
+
 @if (!string.IsNullOrEmpty(_responseContent))
 {
     <h3>Response:</h3>
@@ -28,6 +32,7 @@
 @code {
     private readonly RequestModel _requestModel = new RequestModel();
     private string _responseContent = null!;
+    private string _loadingDisplay = "none";
     private const string Prompt = "Deine Aufgabe ist es, Issues zu verwalten. Wenn ein Benutzer ein Problem schildert, musst du Folgendes extrahieren: " +
                                   "Erstens, einen aussagekräftigen Titel für das Issue, der klar beschreibt, worum es geht, wobei er nur aus drei bis vier Wörtern bestehen soll. " +
                                   "Zweitens, eine kurze Zusammenfassung der übermittelten Beschreibung. " +
@@ -38,10 +43,10 @@
                                   "Die einzelnen Punkte dürfen nicht nummeriert werden. " +
                                   "Das Schema deiner Antwort muss wie folgt aussehen: Punkt 1 % Punkt 2 % Punkt 3 % Punkt 4 % punkt 5";
 
-    
-    
     private async Task SendGptRequestAsync()
     {
+        _loadingDisplay = "block"; 
+
         const string url = "https://apim-forstsee-hackathon.azure-api.net/openai-4/gpt4/chat";
         var request = new HttpRequestMessage(HttpMethod.Post, url);
 
@@ -86,6 +91,7 @@
             _responseContent = "Error sending post request";
             Console.WriteLine("Error sending post request");
         }
-    }
 
+        _loadingDisplay = "none"; 
+    }
 }
