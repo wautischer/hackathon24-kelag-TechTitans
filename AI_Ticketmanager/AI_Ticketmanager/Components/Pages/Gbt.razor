@@ -34,21 +34,11 @@
     
     private async Task SendGptRequestAsync()
     {
-        //https://kv-hackathon-team-4.vault.azure.net/secrets/OpenAIKey/0e91d9647fba454597a8a8bbf268fd96
-        string keyVaultName = "kv-hackathon-team-4";
-        string secretName = "OpenAIKey";
-
-        DefaultAzureCredential credential = new DefaultAzureCredential();
-        
-        SecretClient client = new SecretClient(new Uri($"https://{keyVaultName}.vault.azure.net/"), credential);
-    
-        KeyVaultSecret secret = client.GetSecret(secretName);
-        Console.WriteLine(secret.Value);
-        
         const string url = "https://apim-forstsee-hackathon.azure-api.net/openai-4/gpt4/chat";
         var request = new HttpRequestMessage(HttpMethod.Post, url);
 
-        request.Headers.Add("Ocp-Apim-Subscription-Key", secret.Value);
+        string secret = Environment.GetEnvironmentVariable("SUB-KEY");
+        request.Headers.Add("Ocp-Apim-Subscription-Key", secret);
         request.Headers.Add("Cache-Control", "no-cache");
 
         var jsonRequest = new
