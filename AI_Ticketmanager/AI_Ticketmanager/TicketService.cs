@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 public class TicketService
 {
-    private string keyVaultName = Environment.GetEnvironmentVariable("kv-Hackathon-Team-4");
-    private string secretName = Environment.GetEnvironmentVariable("passwordDB");
+
+    private string passworddb = Environment.GetEnvironmentVariable("PASSWORD_DB");
     private string connectionString;
 
     public TicketService()
@@ -19,20 +19,17 @@ public class TicketService
 
     private async Task<string> GetConnectionString()
     {
-        if (string.IsNullOrEmpty(keyVaultName) || string.IsNullOrEmpty(secretName))
+        Console.WriteLine(passworddb);
+        if (string.IsNullOrEmpty(passworddb) )
         {
             throw new InvalidOperationException("Key Vault name or secret name is not set in environment variables.");
         }
 
-        var kvUri = $"https://{keyVaultName}.vault.azure.net";
-        var client = new SecretClient(new Uri(kvUri), new DefaultAzureCredential());
-
-        KeyVaultSecret secret = await client.GetSecretAsync(secretName);
-        string password = secret.Value;
-
+       
+       
         Console.WriteLine($"Secret value retrieved successfully.");
         
-        return $"Server=tcp:sql-hackathon-team4.database.windows.net,1433;Initial Catalog=sqldb-hackathon-team4;Persist Security Info=False;User ID=hackathonTeam4;Password={password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        return $"Server=tcp:sql-hackathon-team4.database.windows.net,1433;Initial Catalog=sqldb-hackathon-team4;Persist Security Info=False;User ID=hackathonTeam4;Password={passworddb};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
     }
 
     public async Task<List<Ticket>> GetTicketsAsync()
