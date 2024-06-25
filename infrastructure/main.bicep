@@ -14,10 +14,19 @@ param registryUsername string
 @secure()
 param registryToken string
 
+@description('')
+param passwordDBURL string
+
+@description('')
+param openaikeyURL string
+
 var containerAppEnvironmentName = take('caenv-${appName}-${postfix}', 32)
 var containerAppName = take('ca-${appName}-${postfix}', 32)
 var logAnalyticsWorkspaceName = take('logs-${appName}-${postfix}', 32)
 
+resource managedIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' existing = {
+  name: 'id-Forstsee-Hackathon-Team-4'
+}
 
 // Container App Setup
 // Create log analytics workspace for container app environment
@@ -46,11 +55,17 @@ resource containerAppEnvironment 'Microsoft.App/managedEnvironments@2023-05-01' 
   }
 }
 
+
 // Create the container app in the previously created container app environment
 resource containerApp 'Microsoft.App/containerApps@2023-05-01' = {
   name: containerAppName
   location: location
-
+  identity: {
+    type: 'UserAssigned'
+    userAssignedIdentities: {
+      '${managedIdentity.id}': {}
+    }    
+  }
   properties: {
     managedEnvironmentId: containerAppEnvironment.id
     configuration: {
@@ -69,6 +84,17 @@ resource containerApp 'Microsoft.App/containerApps@2023-05-01' = {
           name: 'github-token'
           value: registryToken
         }
+        {
+            name: 'passwordDB'
+            keyVaultUrl: passwordDBURL
+            identity: managedIdentity.id
+        }
+        {
+            name: 'openaikey'
+            keyVaultUrl: openaikeyURL
+            identity: managedIdentity.id
+        }
+    
       ]
       registries: [
         {
@@ -83,6 +109,16 @@ resource containerApp 'Microsoft.App/containerApps@2023-05-01' = {
         {
           name: containerAppName
           image: containerImageWithVersion
+          env: [
+            {
+              name: 'PASSWORD_DB'
+              secretRef: 'passwordDB'
+            }
+            {
+              name: 'SUB-Key'
+              secretRef: 'openaikey'
+            }
+          ]
         }
       ]
     }

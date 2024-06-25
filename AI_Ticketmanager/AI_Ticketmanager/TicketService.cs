@@ -29,7 +29,7 @@ public class TicketService
         return $"Server=tcp:sql-hackathon-team4.database.windows.net,1433;Initial Catalog=sqldb-hackathon-team4;Persist Security Info=False;User ID=hackathonTeam4;Password={passworddb};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
     }
 
-    public async Task<List<Ticket>> GetTicketsAsync()
+    public async Task<List<Ticket>> GetTicketsAsync(string orderType)
     {
         var tickets = new List<Ticket>();
 
@@ -37,7 +37,7 @@ public class TicketService
         try
         {
             await conn.OpenAsync();
-            var cmd = new SqlCommand("SELECT id, title, tags, description, created_at, priority, descriptionLong FROM dbo.tickets", conn);
+            var cmd = new SqlCommand("SELECT id, title, tags, description, created_at, priority, descriptionLong FROM dbo.tickets order by title "+orderType, conn);
             DbDataReader dbReader = await cmd.ExecuteReaderAsync();
 
             while (await dbReader.ReadAsync())
