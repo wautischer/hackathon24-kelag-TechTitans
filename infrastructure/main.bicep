@@ -115,7 +115,7 @@ resource containerApp 'Microsoft.App/containerApps@2023-05-01' = {
               secretRef: 'passworddb'
             }
             {
-              name: 'SUB-Key'
+              name: 'SUB-KEY'
               secretRef: 'openaikey'
             }
           ]
