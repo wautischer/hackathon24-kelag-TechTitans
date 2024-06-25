@@ -26,8 +26,8 @@
 @code {
     private readonly RequestModel _requestModel = new RequestModel();
     private string _responseContent = null!;
-    private const string Prompt = "Deine Aufgabe ist es, Issues zu verwalten. Wenn ein Benutzer ein Problem schildert, musst du Folgendes extrahieren: Erstens, einen aussagekräftigen Titel für das Issue, der klar beschreibt, worum es geht. Zweitens, eine kurze Zusammenfassung der übermittelten Beschreibung. Drittens, passende Labels für das Problem, getrennt durch Kommas. Verfügbare Labels sind: bug, documentation, question, wontfix, invalid, help wanted. Die drei Punkte sollen mit % getrennt werden. Die einzelen Punkte sollen nicht nummeriert werden.";
-    private TicketService _ticketService = new TicketService();
+    private const string Prompt = "Deine Aufgabe ist es, Issues zu verwalten. Wenn ein Benutzer ein Problem schildert, musst du Folgendes extrahieren: Erstens, einen aussagekräftigen Titel für das Issue, der klar beschreibt, worum es geht, wobei er nur aus drei bis vier wörtern bestehen soll. Zweitens, eine kurze Zusammenfassung der übermittelten Beschreibung. Drittens, passende Labels für das Problem, getrennt durch Kommas. Viertens, es soll eine lange und tiefgründige beschreibung generiert werden in der das Problem beschrieben wird. Fünftens, es soll die Priorität bestimmt werden. Zur auswahl steht: Low, Medium, High, Critical. Verfügbare Labels sind: bug, documentation, question, wontfix, invalid, help wanted. Die drei Punkte sollen mit % getrennt werden. Die einzelen Punkte sollen nicht nummeriert werden.";
+    private readonly TicketService _ticketService = new TicketService();
 
     private async Task SendGptRequestAsync()
     {
@@ -61,6 +61,8 @@
                 var title = token[0];
                 var shortDesc = token[1];
                 var labels = token[2];
+                var longDesc = token[3];
+                var priority = token[4];
                 await InsertIssueAsync(title, shortDesc, labels);
                 await InsertTicketAsync(title, shortDesc, labels);
             } 
