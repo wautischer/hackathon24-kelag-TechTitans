@@ -78,7 +78,7 @@ resource containerApp 'Microsoft.App/containerApps@2023-05-01' = {
         }
         {
             name: 'openaikey'
-            keyVaultURL: openaikeyURL
+            value: openaikeyURL
         }
     
       ]
@@ -95,17 +95,17 @@ resource containerApp 'Microsoft.App/containerApps@2023-05-01' = {
         {
           name: containerAppName
           image: containerImageWithVersion
+          env: [
+                          {
+                              name: 'PASSWORD_DB'
+                              secretRef: 'passwordDB'
+                          }
+                          {
+                              name: 'SUB-Key'
+                              secretRef: 'openaikey'
+                          }
+                      ]
         }
-        env: [
-                {
-                    name: PASSWORD_DB
-                    secretRef: passwordDB
-                }
-                {
-                    name: SUB-Key
-                    secretRef: openaikey
-                }
-            ]
       ]
     }
   }
