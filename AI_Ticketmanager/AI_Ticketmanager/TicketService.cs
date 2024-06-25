@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 public class TicketService
 {
-    private string keyVaultName = "kv-Hackathon-Team-4";
-    private string secretName = "passwordDB";
+    private string keyVaultName = Environment.GetEnvironmentVariable("kv-Hackathon-Team-4");
+    private string secretName = Environment.GetEnvironmentVariable("passwordDB");
     private string connectionString;
 
     public TicketService()
@@ -19,7 +19,7 @@ public class TicketService
 
     private async Task<string> GetConnectionString()
     {
-        var kvUri = $"https://kv-hackathon-team-4.vault.azure.net/secrets/passwordDB/22523b6d13934ecd9036e2a54a723346";
+        var kvUri = $"https://{keyVaultName}.vault.azure.net";
         var client = new SecretClient(new Uri(kvUri), new DefaultAzureCredential());
         
         KeyVaultSecret secret = await client.GetSecretAsync(secretName);
