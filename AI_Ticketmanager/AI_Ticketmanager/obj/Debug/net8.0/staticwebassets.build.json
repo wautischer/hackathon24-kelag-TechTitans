@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "3x3cCmXQuG3PJfA9S+N8PIQtALROc1M2Q+FEYqLiDAg=",
+  "Hash": "z5Fj7wAJ8xilFdr3t29DGUBo8wBM7UWHt8XmfLsNMRY=",
   "Source": "AI_Ticketmanager",
   "BasePath": "_content/AI_Ticketmanager",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "AI_Ticketmanager/wwwroot",
       "Source": "AI_Ticketmanager",
-      "ContentRoot": "/Users/laurin/RiderProjects/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/wwwroot/",
+      "ContentRoot": "/Users/gianlucadebache/repositories/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/wwwroot/",
       "BasePath": "_content/AI_Ticketmanager",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "/Users/laurin/RiderProjects/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/obj/Debug/net8.0/scopedcss/bundle/AI_Ticketmanager.styles.css",
+      "Identity": "/Users/gianlucadebache/repositories/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/obj/Debug/net8.0/scopedcss/bundle/AI_Ticketmanager.styles.css",
       "SourceId": "AI_Ticketmanager",
       "SourceType": "Computed",
-      "ContentRoot": "/Users/laurin/RiderProjects/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/obj/Debug/net8.0/scopedcss/bundle/",
+      "ContentRoot": "/Users/gianlucadebache/repositories/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/obj/Debug/net8.0/scopedcss/bundle/",
       "BasePath": "_content/AI_Ticketmanager",
       "RelativePath": "AI_Ticketmanager.styles.css",
       "AssetKind": "All",
@@ -33,13 +33,13 @@
       "AssetTraitValue": "ApplicationBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/laurin/RiderProjects/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/obj/Debug/net8.0/scopedcss/bundle/AI_Ticketmanager.styles.css"
+      "OriginalItemSpec": "/Users/gianlucadebache/repositories/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/obj/Debug/net8.0/scopedcss/bundle/AI_Ticketmanager.styles.css"
     },
     {
-      "Identity": "/Users/laurin/RiderProjects/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/obj/Debug/net8.0/scopedcss/projectbundle/AI_Ticketmanager.bundle.scp.css",
+      "Identity": "/Users/gianlucadebache/repositories/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/obj/Debug/net8.0/scopedcss/projectbundle/AI_Ticketmanager.bundle.scp.css",
       "SourceId": "AI_Ticketmanager",
       "SourceType": "Computed",
-      "ContentRoot": "/Users/laurin/RiderProjects/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/obj/Debug/net8.0/scopedcss/projectbundle/",
+      "ContentRoot": "/Users/gianlucadebache/repositories/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/obj/Debug/net8.0/scopedcss/projectbundle/",
       "BasePath": "_content/AI_Ticketmanager",
       "RelativePath": "AI_Ticketmanager.bundle.scp.css",
       "AssetKind": "All",
@@ -52,13 +52,13 @@
       "AssetTraitValue": "ProjectBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/laurin/RiderProjects/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/obj/Debug/net8.0/scopedcss/projectbundle/AI_Ticketmanager.bundle.scp.css"
+      "OriginalItemSpec": "/Users/gianlucadebache/repositories/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/obj/Debug/net8.0/scopedcss/projectbundle/AI_Ticketmanager.bundle.scp.css"
     },
     {
-      "Identity": "/Users/laurin/RiderProjects/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/wwwroot/app.css",
+      "Identity": "/Users/gianlucadebache/repositories/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/wwwroot/app.css",
       "SourceId": "AI_Ticketmanager",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/laurin/RiderProjects/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/wwwroot/",
+      "ContentRoot": "/Users/gianlucadebache/repositories/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/wwwroot/",
       "BasePath": "_content/AI_Ticketmanager",
       "RelativePath": "app.css",
       "AssetKind": "All",
@@ -74,10 +74,10 @@
       "OriginalItemSpec": "wwwroot/app.css"
     },
     {
-      "Identity": "/Users/laurin/RiderProjects/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/wwwroot/bootstrap/bootstrap.min.css",
+      "Identity": "/Users/gianlucadebache/repositories/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/wwwroot/bootstrap/bootstrap.min.css",
       "SourceId": "AI_Ticketmanager",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/laurin/RiderProjects/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/wwwroot/",
+      "ContentRoot": "/Users/gianlucadebache/repositories/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/wwwroot/",
       "BasePath": "_content/AI_Ticketmanager",
       "RelativePath": "bootstrap/bootstrap.min.css",
       "AssetKind": "All",
@@ -93,10 +93,10 @@
       "OriginalItemSpec": "wwwroot/bootstrap/bootstrap.min.css"
     },
     {
-      "Identity": "/Users/laurin/RiderProjects/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/wwwroot/bootstrap/bootstrap.min.css.map",
+      "Identity": "/Users/gianlucadebache/repositories/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/wwwroot/bootstrap/bootstrap.min.css.map",
       "SourceId": "AI_Ticketmanager",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/laurin/RiderProjects/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/wwwroot/",
+      "ContentRoot": "/Users/gianlucadebache/repositories/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/wwwroot/",
       "BasePath": "_content/AI_Ticketmanager",
       "RelativePath": "bootstrap/bootstrap.min.css.map",
       "AssetKind": "All",
@@ -112,10 +112,10 @@
       "OriginalItemSpec": "wwwroot/bootstrap/bootstrap.min.css.map"
     },
     {
-      "Identity": "/Users/laurin/RiderProjects/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/wwwroot/favicon.png",
+      "Identity": "/Users/gianlucadebache/repositories/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/wwwroot/favicon.png",
       "SourceId": "AI_Ticketmanager",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/laurin/RiderProjects/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/wwwroot/",
+      "ContentRoot": "/Users/gianlucadebache/repositories/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/wwwroot/",
       "BasePath": "_content/AI_Ticketmanager",
       "RelativePath": "favicon.png",
       "AssetKind": "All",

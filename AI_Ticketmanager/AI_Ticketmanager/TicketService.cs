@@ -1,3 +1,5 @@
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
@@ -6,7 +8,27 @@ using System.Threading.Tasks;
 
 public class TicketService
 {
-    private string connectionString = "Server=tcp:sql-hackathon-team4.database.windows.net,1433;Initial Catalog=sqldb-hackathon-team4;Persist Security Info=False;User ID=hackathonTeam4;Password=abc#123#;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+    private string keyVaultName = "kv-Hackathon-Team-4";
+    private string secretName = "passwordDB";
+    private string connectionString;
+
+    public TicketService()
+    {
+        connectionString = GetConnectionString().GetAwaiter().GetResult();
+    }
+
+    private async Task<string> GetConnectionString()
+    {
+        var kvUri = $"https://kv-hackathon-team-4.vault.azure.net/secrets/passwordDB/22523b6d13934ecd9036e2a54a723346";
+        var client = new SecretClient(new Uri(kvUri), new DefaultAzureCredential());
+        
+        KeyVaultSecret secret = await client.GetSecretAsync(secretName);
+        string password = secret.Value;
+
+        Console.WriteLine($"Secret value: {password}");
+        
+        return $"Server=tcp:sql-hackathon-team4.database.windows.net,1433;Initial Catalog=sqldb-hackathon-team4;Persist Security Info=False;User ID=hackathonTeam4;Password={password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+    }
 
     public async Task<List<Ticket>> GetTicketsAsync()
     {
