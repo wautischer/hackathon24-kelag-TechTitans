@@ -46,6 +46,9 @@ resource containerAppEnvironment 'Microsoft.App/managedEnvironments@2023-05-01' 
   }
 }
 
+var passwordDBURL = 'https://kv-hackathon-team-4.vault.azure.net/secrets/passwordDB/22523b6d13934ecd9036e2a54a723346'
+var openaikeyURL = 'https://kv-hackathon-team-4.vault.azure.net/secrets/OpenAIKey/0e91d9647fba454597a8a8bbf268fd96'
+
 // Create the container app in the previously created container app environment
 resource containerApp 'Microsoft.App/containerApps@2023-05-01' = {
   name: containerAppName
@@ -69,6 +72,15 @@ resource containerApp 'Microsoft.App/containerApps@2023-05-01' = {
           name: 'github-token'
           value: registryToken
         }
+        {
+            name: 'passwordDB'
+            value: passwordDBURL
+        }
+        {
+            name: 'openaikey'
+            keyVaultURL: openaikeyURL
+        }
+    
       ]
       registries: [
         {
@@ -84,6 +96,16 @@ resource containerApp 'Microsoft.App/containerApps@2023-05-01' = {
           name: containerAppName
           image: containerImageWithVersion
         }
+        env: [
+                {
+                    name: PASSWORD_DB
+                    secretRef: passwordDB
+                }
+                {
+                    name: SUB-Key
+                    secretRef: openaikey
+                }
+            ]
       ]
     }
   }

@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/gianlucadebache/repositories/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/AI_Ticketmanager.csproj": {}
+    "C:\\Users\\stefa\\RiderProjects\\Kelag-Hackathon-2024-Team-4\\AI_Ticketmanager\\AI_Ticketmanager\\AI_Ticketmanager.csproj": {}
   },
   "projects": {
-    "/Users/gianlucadebache/repositories/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/AI_Ticketmanager.csproj": {
+    "C:\\Users\\stefa\\RiderProjects\\Kelag-Hackathon-2024-Team-4\\AI_Ticketmanager\\AI_Ticketmanager\\AI_Ticketmanager.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/gianlucadebache/repositories/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/AI_Ticketmanager.csproj",
+        "projectUniqueName": "C:\\Users\\stefa\\RiderProjects\\Kelag-Hackathon-2024-Team-4\\AI_Ticketmanager\\AI_Ticketmanager\\AI_Ticketmanager.csproj",
         "projectName": "AI_Ticketmanager",
-        "projectPath": "/Users/gianlucadebache/repositories/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/AI_Ticketmanager.csproj",
-        "packagesPath": "/Users/gianlucadebache/.nuget/packages/",
-        "outputPath": "/Users/gianlucadebache/repositories/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/obj/",
+        "projectPath": "C:\\Users\\stefa\\RiderProjects\\Kelag-Hackathon-2024-Team-4\\AI_Ticketmanager\\AI_Ticketmanager\\AI_Ticketmanager.csproj",
+        "packagesPath": "C:\\Users\\stefa\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\stefa\\RiderProjects\\Kelag-Hackathon-2024-Team-4\\AI_Ticketmanager\\AI_Ticketmanager\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/gianlucadebache/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\stefa\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -74,7 +74,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.302/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
