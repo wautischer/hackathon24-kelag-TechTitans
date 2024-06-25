@@ -22,7 +22,7 @@ public class TicketService
         Console.WriteLine(passworddb);
         if (string.IsNullOrEmpty(passworddb) )
         {
-            throw new InvalidOperationException("Key Vault name or secret name is not set in environment variables.");
+            throw new InvalidOperationException("Fail");
         }
 
        
