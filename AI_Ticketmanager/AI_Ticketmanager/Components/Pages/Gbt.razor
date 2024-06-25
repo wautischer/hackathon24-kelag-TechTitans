@@ -27,6 +27,7 @@
     private readonly RequestModel _requestModel = new RequestModel();
     private string _responseContent = null!;
     private const string Prompt = "Deine Aufgabe ist es, Issues zu verwalten. Wenn ein Benutzer ein Problem schildert, musst du Folgendes extrahieren: Erstens, einen aussagekräftigen Titel für das Issue, der klar beschreibt, worum es geht. Zweitens, eine kurze Zusammenfassung der übermittelten Beschreibung. Drittens, passende Labels für das Problem, getrennt durch Kommas. Verfügbare Labels sind: bug, documentation, question, wontfix, invalid, help wanted. Die drei Punkte sollen mit % getrennt werden. Die einzelen Punkte sollen nicht nummeriert werden.";
+    private TicketService _ticketService = new TicketService();
 
     private async Task SendGptRequestAsync()
     {
@@ -61,6 +62,7 @@
                 var shortDesc = token[1];
                 var labels = token[2];
                 await InsertIssueAsync(title, shortDesc, labels);
+                await InsertTicketAsync(title, shortDesc, labels);
             } 
         }
         else
@@ -89,7 +91,7 @@
     {
         public string content { get; set; }
     }
-    
+
     private async Task InsertIssueAsync(String titleU, String bodyU, String lablesU)
     {
         const string repoName = "Kelag-Hackathon-2024-Team-4";
@@ -111,5 +113,19 @@
         var response = await Http.SendAsync(request);
 
         Console.WriteLine(response.IsSuccessStatusCode ? "Issue successfully inserted." : "Error inserting issue.");
+    }
+
+    private async Task InsertTicketAsync(string title, string description, string tags)
+    {
+        var ticket = new Ticket
+        {
+            title = title,
+            description = description,
+            tags = tags,
+            created_at = DateTime.UtcNow
+        };
+
+        await _ticketService.InsertTicketAsync(ticket);
+        Console.WriteLine("Ticket successfully inserted into the database.");
     }
 }

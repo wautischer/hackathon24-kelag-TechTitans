@@ -34,16 +34,43 @@ public class TicketService
             }
             catch (SqlException ex)
             {
-                // Handle SQL-specific exceptions
                 Console.WriteLine($"SQL error: {ex.Message}");
             }
             catch (Exception ex)
             {
-                // Handle other exceptions
                 Console.WriteLine($"General error: {ex.Message}");
             }
         }
 
         return tickets;
+    }
+
+    public async Task InsertTicketAsync(Ticket ticket)
+    {
+        using (SqlConnection conn = new SqlConnection(connectionString))
+        {
+            try
+            {
+                await conn.OpenAsync();
+                SqlCommand cmd = new SqlCommand(
+                    "INSERT INTO dbo.tickets (title, tags, description, created_at) VALUES (@Title, @Tags, @Description, @CreatedAt)", 
+                    conn);
+
+                cmd.Parameters.AddWithValue("@Title", ticket.title);
+                cmd.Parameters.AddWithValue("@Tags", ticket.tags ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@Description", ticket.description);
+                cmd.Parameters.AddWithValue("@CreatedAt", ticket.created_at);
+
+                await cmd.ExecuteNonQueryAsync();
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine($"SQL error: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"General error: {ex.Message}");
+            }
+        }
     }
 }

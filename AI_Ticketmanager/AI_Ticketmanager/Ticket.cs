@@ -6,4 +6,6 @@ public class Ticket
     public string description { get; set; }
 
     public DateTime created_at { get; set; }
+
+    
 }
