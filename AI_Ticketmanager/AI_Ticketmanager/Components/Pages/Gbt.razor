@@ -10,40 +10,6 @@
 
 <PageTitle>ChatGPT</PageTitle>
 
-<style>
-    /* CSS für die Ladeanimation */
-    #loading-container {
-        display: none; /* Standardmäßig ausblenden */
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(255, 255, 255, 0.7);
-        z-index: 9999;
-        text-align: center;
-    }
-
-    #loading {
-        display: inline-block;
-        width: 80px;
-        height: 80px;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        border: 6px solid #f3f3f3;
-        border-radius: 50%;
-        border-top: 6px solid #3498db;
-        animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-</style>
-
 <h1>ChatGPT Request</h1>
 
 <form>
