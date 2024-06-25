@@ -19,7 +19,7 @@ public class TicketService
 
     private async Task<string> GetConnectionString()
     {
-        var kvUri = $"https://{keyVaultName}.vault.azure.net";
+        var kvUri = $"https://kv-Hackathon-Team-4.vault.azure.net";
         var client = new SecretClient(new Uri(kvUri), new DefaultAzureCredential());
         
         KeyVaultSecret secret = await client.GetSecretAsync(secretName);
