@@ -16,8 +16,10 @@ else
             <tr>
                 <th>Id</th>
                 <th>Title</th>
+                <th>Priority</th>
                 <th>Tags</th>
                 <th>Description</th>
+                <th>Long Description</th>
                 <th>Created_at</th>
             </tr>
         </thead>
@@ -27,8 +29,10 @@ else
                 <tr>
                     <td>@ticket.id</td>
                     <td>@ticket.title</td>
+                    <td>@ticket.priority</td>
                     <td>@ticket.tags</td>
                     <td>@ticket.description</td>
+                    <td>@ticket.descriptionLong</td>
                     <td>@ticket.created_at</td>
                 </tr>
             }

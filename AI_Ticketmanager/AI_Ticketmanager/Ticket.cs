@@ -7,5 +7,7 @@ public class Ticket
 
     public DateTime created_at { get; set; }
 
-    
+    public string priority { get; set; }
+
+    public string descriptionLong { get; set; }
 }
