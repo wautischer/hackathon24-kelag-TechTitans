@@ -1,37 +1,43 @@
 @page "/gpt"
 @using System.Text
 @using System.Text.Json
-@using Azure.Identity
-@using Azure.Security.KeyVault.Secrets
-@using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos
+@using Microsoft.IdentityModel.Tokens
 @inject HttpClient Http
 @inject ApiDAO ApiDao
 @rendermode InteractiveServer
 
 <PageTitle>ChatGPT</PageTitle>
 
-<h1>ChatGPT Request</h1>
+<h1 class="text-center">ChatGPT Request</h1>
 
-<form>
-    <label for="description">Description: </label>
-    <input id="description" @bind="_requestModel.description"/>
-
-    <button class="btn btn-success" @onclick="SendGptRequestAsync" type="button">Send</button>
-</form>
+<div class="container justify-content-center text-center mt-5">
+    <form>
+        <div class="form-group">
+            <label for="description" class="fs-4">What's your question?</label>
+            <input type="text" class="form-control" id="description" @bind="_requestModel.description" placeholder="Enter question">
+        </div>
+        <div class="pt-3">
+            <button class="btn btn-success btn-lg" @onclick="SendGptRequestAsync" type="button">Send</button>
+        </div>
+    </form>
+</div>
 
 <div id="loading-container" style="display: @_loadingDisplay;">
     <div id="loading"></div>
 </div>
 
-@if (!string.IsNullOrEmpty(_responseContent))
-{
-    <h3>Response:</h3>
-    <p>@_responseContent</p>
-}
+<div class="text-center pt-5">
+    @if (!string.IsNullOrEmpty(_responseContent))
+    {
+    <h3>Antwort</h3>
+    <p>@_answer</p>
+    }
+</div>
 
 @code {
     private readonly RequestModel _requestModel = new RequestModel();
     private string _responseContent = null!;
+    private string _answer = null!;
     private string _loadingDisplay = "none";
     private const string Prompt = "Deine Aufgabe ist es, Issues zu verwalten. Wenn ein Benutzer ein Problem schildert, musst du Folgendes extrahieren: " +
                                   "Erstens, einen aussagekräftigen Titel für das Issue, der klar beschreibt, worum es geht, wobei er nur aus drei bis vier Wörtern bestehen soll. " +
@@ -39,7 +45,8 @@
                                   "Drittens, passende Labels für das Problem, getrennt durch Kommas. " +
                                   "Viertens, es soll eine lange und tiefgründige Beschreibung generiert werden, in der das Problem beschrieben wird und steht welche informationen der Benutzer uns gegeben hat und welche nicht. Diese darf jedoch nicht länger als 500 Zeichen sein! " +
                                   "Fünftens, es soll die Priorität bestimmt werden. Zur Auswahl steht: Low, Medium, High, Critical. Verfügbare Labels sind: bug, documentation, question, wontfix, invalid, help wanted. " +
-                                  "Die drei Punkte müssen mit % getrennt werden. " +
+                                  "Sechstens, sollte das Problem des benutzer einfach zu beantworten sein, beantworte seine Frage kurz! Sollte es nicht möglich sein die Frage des benutzers kurz zu beantwirten, schreibe, 'Bitte wenden Sie sich an unseren Support!'" +
+                                  "Die sechs Punkte müssen mit % getrennt werden. " +
                                   "Die einzelnen Punkte dürfen nicht nummeriert werden. " +
                                   "Das Schema deiner Antwort muss wie folgt aussehen: Punkt 1 % Punkt 2 % Punkt 3 % Punkt 4 % punkt 5";
 
@@ -50,7 +57,7 @@
         const string url = "https://apim-forstsee-hackathon.azure-api.net/openai-4/gpt4/chat";
         var request = new HttpRequestMessage(HttpMethod.Post, url);
 
-        string secret = Environment.GetEnvironmentVariable("SUB-KEY");
+        var secret = Environment.GetEnvironmentVariable("SUB-KEY");
         request.Headers.Add("Ocp-Apim-Subscription-Key", secret);
         request.Headers.Add("Cache-Control", "no-cache");
 
@@ -67,12 +74,12 @@
 
         var response = await Http.SendAsync(request);
 
-        if (response.IsSuccessStatusCode)
+        if (response.IsSuccessStatusCode && string.IsNullOrWhiteSpace(_answer))
         {
             var responseString = await response.Content.ReadAsStringAsync();
             var responseObject = JsonSerializer.Deserialize<ChatResponse>(responseString);
-            _responseContent = responseObject?.choices?.FirstOrDefault()?.message?.content ?? "No content in response.";
-            if (!_responseContent.Equals("No content in response."))
+            _responseContent = responseObject?.choices.FirstOrDefault()?.message.content ?? "No content in response.";
+            if (!string.IsNullOrWhiteSpace(_responseContent))
             {
                 var token = _responseContent.Split("%");
                 var title = token[0];
@@ -80,15 +87,21 @@
                 var labels = token[2];
                 var longDesc = token[3];
                 var priority = token[4];
+                _answer = token[5].Trim();
+                
                 Console.WriteLine(longDesc);
                 Console.WriteLine(priority);
-                await ApiDao.InsertIssueAsync(title, shortDesc, labels);
-                await ApiDao.InsertTicketAsync(title, shortDesc, labels, longDesc,priority);
+                if (_answer.Equals("Bitte wenden Sie sich an unseren Support!"))
+                {
+                    await ApiDao.InsertIssueAsync(title, shortDesc, labels);
+                    await ApiDao.InsertTicketAsync(title, shortDesc, labels, longDesc,priority);
+                }
             }
         }
         else
         {
             _responseContent = "Error sending post request";
+            _answer = "Geben Sie eine Frage ein!";
             Console.WriteLine("Error sending post request");
         }
 
