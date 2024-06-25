@@ -31,38 +31,36 @@ public class TicketService
 
     public async Task<List<Ticket>> GetTicketsAsync()
     {
-        List<Ticket> tickets = new List<Ticket>();
+        var tickets = new List<Ticket>();
 
-        using (SqlConnection conn = new SqlConnection(connectionString))
+        await using var conn = new SqlConnection(connectionString);
+        try
         {
-            try
-            {
-                await conn.OpenAsync();
-                SqlCommand cmd = new SqlCommand("SELECT id, title, tags, description, created_at, priority, descriptionLong FROM dbo.tickets", conn);
-                DbDataReader dbReader = await cmd.ExecuteReaderAsync();
+            await conn.OpenAsync();
+            var cmd = new SqlCommand("SELECT id, title, tags, description, created_at, priority, descriptionLong FROM dbo.tickets", conn);
+            DbDataReader dbReader = await cmd.ExecuteReaderAsync();
 
-                while (await dbReader.ReadAsync())
+            while (await dbReader.ReadAsync())
+            {
+                tickets.Add(new Ticket
                 {
-                    tickets.Add(new Ticket
-                    {
-                        id = dbReader.GetInt32(0),
-                        title = dbReader.GetString(1),
-                        tags = dbReader.GetString(2),
-                        description = dbReader.GetString(3),
-                        created_at = dbReader.GetDateTime(4),
-                        priority = dbReader.GetString(5),
-                        descriptionLong = dbReader.GetString(6)
-                    });
-                }
+                    id = dbReader.GetInt32(0),
+                    title = dbReader?.GetString(1) ?? "NULL",
+                    tags = dbReader?.GetString(2) ?? "NULL",
+                    description = dbReader?.GetString(3) ?? "NULL",
+                    created_at = dbReader!.GetDateTime(4),
+                    priority = dbReader?.GetString(5) ?? "NULL",
+                    descriptionLong = dbReader?.GetString(6) ?? "NULL"
+                });
             }
-            catch (SqlException ex)
-            {
-                Console.WriteLine($"SQL error: {ex.Message}");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"General error: {ex.Message}");
-            }
+        }
+        catch (SqlException ex)
+        {
+            Console.WriteLine($"SQL error: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"General error: {ex.Message}");
         }
 
         return tickets;
@@ -75,10 +73,10 @@ public class TicketService
             try
             {
                 await conn.OpenAsync();
-                SqlCommand cmd = new SqlCommand("INSERT INTO dbo.tickets (title, tags, description, created_at, priority, descriptionLong) VALUES (@Title, @Tags, @Description, @CreatedAt, @Priority, @DescriptionLong", conn);
+                SqlCommand cmd = new SqlCommand("INSERT INTO dbo.tickets (title, tags, description, created_at, priority, descriptionLong) VALUES (@Title, @Tags, @Description, @CreatedAt, @Priority, @DescriptionLong)", conn);
 
                 cmd.Parameters.AddWithValue("@Title", ticket.title);
-                cmd.Parameters.AddWithValue("@Tags", ticket.tags ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@Tags", ticket.tags);
                 cmd.Parameters.AddWithValue("@Description", ticket.description);
                 cmd.Parameters.AddWithValue("@CreatedAt", ticket.created_at);
                 cmd.Parameters.AddWithValue("@Priority", ticket.priority);
@@ -91,7 +89,7 @@ public class TicketService
                 Console.WriteLine($"SQL error: {ex.Message}");
             }
             catch (Exception ex)
-            {
+            { 
                 Console.WriteLine($"General error: {ex.Message}");
             }
         }

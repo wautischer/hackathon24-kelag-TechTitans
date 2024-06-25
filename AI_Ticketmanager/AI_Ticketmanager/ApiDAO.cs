@@ -63,14 +63,16 @@ public class ApiDAO
         Console.WriteLine(response.IsSuccessStatusCode ? "Issue successfully inserted." : "Error inserting issue.");
     }
 
-    public async Task InsertTicketAsync(string title, string description, string tags)
+    public async Task InsertTicketAsync(string title, string shortDesc, string tags, string longDesc, string priority)
     {
         var ticket = new Ticket
         {
             title = title,
-            description = description,
             tags = tags,
-            created_at = DateTime.UtcNow
+            description = shortDesc,
+            created_at = DateTime.UtcNow,
+            priority = priority,
+            descriptionLong = longDesc
         };
 
         await _ticketService.InsertTicketAsync(ticket);
