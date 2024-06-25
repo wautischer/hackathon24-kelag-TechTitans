@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 public class TicketService
 {
-    private string keyVaultName = "passwordDB";
+    private string keyVaultName = "kv-Hackathon-Team-4";
     private string secretName = "sql-password";
     private string connectionString;
 
