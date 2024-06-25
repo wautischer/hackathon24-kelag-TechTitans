@@ -19,15 +19,15 @@ public class TicketService
 
     private async Task<string> GetConnectionString()
     {
-        var kvUri = $"https://kv-hackathon-team-4.vault.azure.net/secrets/passwordDB/22523b6d13934ecd9036e2a54a723346";
+        var kvUri = $"https://{keyVaultName}.vault.azure.net/";
         var client = new SecretClient(new Uri(kvUri), new DefaultAzureCredential());
         
         KeyVaultSecret secret = await client.GetSecretAsync(secretName);
-        var password = client.GetSecret(secretName);
+        string password = secret.Value;
 
-        Console.WriteLine($"Secret value: {password.Value.Value}");
+        Console.WriteLine($"Secret value: {password}");
         
-        return $"Server=tcp:sql-hackathon-team4.database.windows.net,1433;Initial Catalog=sqldb-hackathon-team4;Persist Security Info=False;User ID=hackathonTeam4;Password={password.Value.Value};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        return $"Server=tcp:sql-hackathon-team4.database.windows.net,1433;Initial Catalog=sqldb-hackathon-team4;Persist Security Info=False;User ID=hackathonTeam4;Password={password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
     }
 
     public async Task<List<Ticket>> GetTicketsAsync()
