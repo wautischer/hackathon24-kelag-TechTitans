@@ -37,7 +37,7 @@
 
     private async Task SendGptRequestAsync()
     {
-        _loadingDisplay = "block"; // Zeige die Ladeanimation
+        _loadingDisplay = "block"; 
 
         const string url = "https://apim-forstsee-hackathon.azure-api.net/openai-4/gpt4/chat";
         var request = new HttpRequestMessage(HttpMethod.Post, url);
@@ -82,6 +82,6 @@
             Console.WriteLine("Error sending post request");
         }
 
-        _loadingDisplay = "none"; // Verstecke die Ladeanimation nach der Antwort
+        _loadingDisplay = "none"; 
     }
 }
