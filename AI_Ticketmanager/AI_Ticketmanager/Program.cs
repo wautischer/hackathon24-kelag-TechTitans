@@ -15,6 +15,8 @@ builder.Services.AddScoped<HttpClient>(sp =>
     return new HttpClient { BaseAddress = new Uri(navigationManager.BaseUri) };
 });
 
+builder.Services.AddScoped<ApiDAO>();
+
 builder.Services.AddSingleton<TicketService>();
 
 

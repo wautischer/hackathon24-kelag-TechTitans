@@ -1,6 +1,6 @@
 @page "/issue"
-@using System.Reflection.Metadata
 @inject HttpClient Http
+@inject ApiDAO ApiDAO
 @rendermode InteractiveServer
 
 <PageTitle>Insert Issue</PageTitle>
@@ -9,45 +9,20 @@
 
 <form>
     <label for="title">Title: </label>
-    <input id="title" @bind="issue.title"/>
+    <input id="title" @bind="_issue.title"/>
     <label for="body">Body: </label>
-    <input id="body" @bind="issue.body"/>
+    <input id="body" @bind="_issue.body"/>
     <label for="labels">Labels: </label>
-    <input id="labels" @bind="issue.labels"/>
+    <input id="labels" @bind="_issue.labels"/>
 
     <button class="btn btn-success" @onclick="InsertIssueAsync" type="button">Insert Issue</button>
 </form>
 
 @code {
-    private IssueModel issue = new IssueModel();
+    private readonly IssueModel _issue = new IssueModel();
 
     private async Task InsertIssueAsync()
     {
-        const string repoName = "Kelag-Hackathon-2024-Team-4";
-        const string url = $"https://apim-forstsee-hackathon.azure-api.net/github/{repoName}/issues";
-        var request = new HttpRequestMessage(HttpMethod.Post, url);
-
-        request.Headers.Add("Ocp-Apim-Subscription-Key", "3e236f929eff430d86451d23c6db7b1f");
-        request.Headers.Add("Cache-Control", "no-cache");
-
-        var jsonIssue = new
-        {
-            title = issue.title,
-            body = issue.body,
-            labels = issue.labels.Split(',').Select(label => label.Trim()).ToArray()
-        };
-
-        request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(jsonIssue), System.Text.Encoding.UTF8, "application/json");
-
-        var response = await Http.SendAsync(request);
-
-        Console.WriteLine(response.IsSuccessStatusCode ? "Issue successfully inserted." : "Error inserting issue.");
-    }
-
-    public class IssueModel
-    {
-        public string title { get; set; }
-        public string body { get; set; }
-        public string labels { get; set; }
+        await ApiDAO.InsertIssueAsync(_issue);
     }
 }
