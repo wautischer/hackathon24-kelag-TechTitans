@@ -1,9 +1,8 @@
 @page "/gpt"
-@using System.Reflection.Metadata
-@using System.Security.Principal
+@using System.Text
 @using System.Text.Json
-@using Org.BouncyCastle.Tls
 @inject HttpClient Http
+@inject ApiDAO ApiDao
 @rendermode InteractiveServer
 
 <PageTitle>ChatGPT</PageTitle>
@@ -26,8 +25,7 @@
 @code {
     private readonly RequestModel _requestModel = new RequestModel();
     private string _responseContent = null!;
-    private const string Prompt = "Deine Aufgabe ist es, Issues zu verwalten. Wenn ein Benutzer ein Problem schildert, musst du Folgendes extrahieren: Erstens, einen aussagekräftigen Titel für das Issue, der klar beschreibt, worum es geht, wobei er nur aus drei bis vier wörtern bestehen soll. Zweitens, eine kurze Zusammenfassung der übermittelten Beschreibung. Drittens, passende Labels für das Problem, getrennt durch Kommas. Viertens, es soll eine lange und tiefgründige beschreibung generiert werden in der das Problem beschrieben wird. Fünftens, es soll die Priorität bestimmt werden. Zur auswahl steht: Low, Medium, High, Critical. Verfügbare Labels sind: bug, documentation, question, wontfix, invalid, help wanted. Die drei Punkte sollen mit % getrennt werden. Die einzelen Punkte sollen nicht nummeriert werden.";
-    private readonly TicketService _ticketService = new TicketService();
+    private const string Prompt = "Deine Aufgabe ist es, Issues zu verwalten. Wenn ein Benutzer ein Problem schildert, musst du Folgendes extrahieren: Erstens, einen aussagekräftigen Titel für das Issue, der klar beschreibt, worum es geht, wobei er nur aus drei bis vier Wörtern bestehen soll. Zweitens, eine kurze Zusammenfassung der übermittelten Beschreibung. Drittens, passende Labels für das Problem, getrennt durch Kommas. Viertens, es soll eine lange und tiefgründige Beschreibung generiert werden, in der das Problem beschrieben wird. Fünftens, es soll die Priorität bestimmt werden. Zur Auswahl steht: Low, Medium, High, Critical. Verfügbare Labels sind: bug, documentation, question, wontfix, invalid, help wanted. Die drei Punkte sollen mit % getrennt werden. Die einzelnen Punkte sollen nicht nummeriert werden.";
 
     private async Task SendGptRequestAsync()
     {
@@ -46,7 +44,7 @@
             }
         };
 
-        request.Content = new StringContent(JsonSerializer.Serialize(jsonRequest), System.Text.Encoding.UTF8, "application/json");
+        request.Content = new StringContent(JsonSerializer.Serialize(jsonRequest), Encoding.UTF8, "application/json");
 
         var response = await Http.SendAsync(request);
 
@@ -63,9 +61,9 @@
                 var labels = token[2];
                 var longDesc = token[3];
                 var priority = token[4];
-                await InsertIssueAsync(title, shortDesc, labels);
-                await InsertTicketAsync(title, shortDesc, labels);
-            } 
+                await ApiDao.InsertIssueAsync(title, shortDesc, labels);
+                await ApiDao.InsertTicketAsync(title, shortDesc, labels);
+            }
         }
         else
         {
@@ -74,60 +72,4 @@
         }
     }
 
-    public class RequestModel
-    {
-        public string description { get; set; }
-    }
-
-    public class ChatResponse
-    {
-        public Choice[] choices { get; set; }
-    }
-
-    public class Choice
-    {
-        public Message message { get; set; }
-    }
-
-    public class Message
-    {
-        public string content { get; set; }
-    }
-
-    private async Task InsertIssueAsync(String titleU, String bodyU, String lablesU)
-    {
-        const string repoName = "Kelag-Hackathon-2024-Team-4";
-        const string url = $"https://apim-forstsee-hackathon.azure-api.net/github/{repoName}/issues";
-        var request = new HttpRequestMessage(HttpMethod.Post, url);
-
-        request.Headers.Add("Ocp-Apim-Subscription-Key", "3e236f929eff430d86451d23c6db7b1f");
-        request.Headers.Add("Cache-Control", "no-cache");
-
-        var jsonIssue = new
-        {
-            title = titleU,
-            body = bodyU,
-            labels = lablesU.Split(',').Select(label => label.Trim()).ToArray()
-        };
-
-        request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(jsonIssue), System.Text.Encoding.UTF8, "application/json");
-
-        var response = await Http.SendAsync(request);
-
-        Console.WriteLine(response.IsSuccessStatusCode ? "Issue successfully inserted." : "Error inserting issue.");
-    }
-
-    private async Task InsertTicketAsync(string title, string description, string tags)
-    {
-        var ticket = new Ticket
-        {
-            title = title,
-            description = description,
-            tags = tags,
-            created_at = DateTime.UtcNow
-        };
-
-        await _ticketService.InsertTicketAsync(ticket);
-        Console.WriteLine("Ticket successfully inserted into the database.");
-    }
 }
