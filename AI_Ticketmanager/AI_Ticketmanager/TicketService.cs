@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 public class TicketService
 {
     private string keyVaultName = "kv-Hackathon-Team-4";
-    private string secretName = Environment.GetEnvironmentVariable("passwordDB");
+    private string secretName = "passwordDB";
     private string connectionString;
 
     public TicketService()
