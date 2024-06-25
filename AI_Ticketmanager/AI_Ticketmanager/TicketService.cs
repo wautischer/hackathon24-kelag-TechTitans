@@ -25,10 +25,7 @@ public class TicketService
             throw new InvalidOperationException("Fail");
         }
 
-       
-       
         Console.WriteLine($"Secret value retrieved successfully.");
-        
         return $"Server=tcp:sql-hackathon-team4.database.windows.net,1433;Initial Catalog=sqldb-hackathon-team4;Persist Security Info=False;User ID=hackathonTeam4;Password={passworddb};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
     }
 
