@@ -38,7 +38,7 @@ public class TicketService
             try
             {
                 await conn.OpenAsync();
-                SqlCommand cmd = new SqlCommand("SELECT id, title, tags, description, created_at FROM dbo.tickets", conn);
+                SqlCommand cmd = new SqlCommand("SELECT id, title, tags, description, created_at, priority, descriptionLong FROM dbo.tickets", conn);
                 DbDataReader dbReader = await cmd.ExecuteReaderAsync();
 
                 while (await dbReader.ReadAsync())
@@ -49,7 +49,9 @@ public class TicketService
                         title = dbReader.GetString(1),
                         tags = dbReader.GetString(2),
                         description = dbReader.GetString(3),
-                        created_at = dbReader.GetDateTime(4)
+                        created_at = dbReader.GetDateTime(4),
+                        priority = dbReader.GetString(5),
+                        descriptionLong = dbReader.GetString(6)
                     });
                 }
             }
@@ -73,14 +75,14 @@ public class TicketService
             try
             {
                 await conn.OpenAsync();
-                SqlCommand cmd = new SqlCommand(
-                    "INSERT INTO dbo.tickets (title, tags, description, created_at) VALUES (@Title, @Tags, @Description, @CreatedAt)", 
-                    conn);
+                SqlCommand cmd = new SqlCommand("INSERT INTO dbo.tickets (title, tags, description, created_at, priority, descriptionLong) VALUES (@Title, @Tags, @Description, @CreatedAt, @Priority, @DescriptionLong", conn);
 
                 cmd.Parameters.AddWithValue("@Title", ticket.title);
                 cmd.Parameters.AddWithValue("@Tags", ticket.tags ?? (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@Description", ticket.description);
                 cmd.Parameters.AddWithValue("@CreatedAt", ticket.created_at);
+                cmd.Parameters.AddWithValue("@Priority", ticket.priority);
+                cmd.Parameters.AddWithValue("@DescriptionLong", ticket.descriptionLong);
 
                 await cmd.ExecuteNonQueryAsync();
             }
