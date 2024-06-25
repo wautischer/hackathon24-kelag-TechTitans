@@ -25,7 +25,8 @@
         "applicationUrl": "https://localhost:7133;http://localhost:5060",
         "environmentVariables": {
           "ASPNETCORE_ENVIRONMENT": "Development",
-          "PASSWORD_DB": "abc#123#"
+          "PASSWORD_DB": "abc#123#",
+          "SUB-KEY": "3e236f929eff430d86451d23c6db7b1f"
         }
       },
       "IIS Express": {

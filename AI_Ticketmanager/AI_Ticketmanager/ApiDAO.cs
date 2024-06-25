@@ -21,8 +21,8 @@ public class ApiDAO
         const string repoName = "Kelag-Hackathon-2024-Team-4";
         const string url = $"https://apim-forstsee-hackathon.azure-api.net/github/{repoName}/issues";
         var request = new HttpRequestMessage(HttpMethod.Post, url);
-
-        request.Headers.Add("Ocp-Apim-Subscription-Key", "3e236f929eff430d86451d23c6db7b1f");
+        string secret = Environment.GetEnvironmentVariable("SUB-KEY");
+        request.Headers.Add("Ocp-Apim-Subscription-Key", secret);
         request.Headers.Add("Cache-Control", "no-cache");
 
         var jsonIssue = new
@@ -45,7 +45,8 @@ public class ApiDAO
         const string url = $"https://apim-forstsee-hackathon.azure-api.net/github/{repoName}/issues";
         var request = new HttpRequestMessage(HttpMethod.Post, url);
 
-        request.Headers.Add("Ocp-Apim-Subscription-Key", "3e236f929eff430d86451d23c6db7b1f");
+        string secret = Environment.GetEnvironmentVariable("SUB-KEY");
+        request.Headers.Add("Ocp-Apim-Subscription-Key", secret);
         request.Headers.Add("Cache-Control", "no-cache");
 
         var jsonIssue = new
