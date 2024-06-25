@@ -38,6 +38,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.Data.SqlClient": {
+              "target": "Package",
+              "version": "[5.2.1, )"
+            },
             "MySql.Data": {
               "target": "Package",
               "version": "[8.4.0, )"
