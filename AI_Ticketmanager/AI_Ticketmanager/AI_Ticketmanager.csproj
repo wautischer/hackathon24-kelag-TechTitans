@@ -13,4 +13,8 @@
       <PackageReference Include="MySql.Data" Version="8.4.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="Components\Pages\Gbt.css" />
+    </ItemGroup>
+
 </Project>

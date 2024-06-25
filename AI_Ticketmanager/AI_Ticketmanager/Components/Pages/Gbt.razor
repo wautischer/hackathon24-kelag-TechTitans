@@ -10,36 +10,6 @@
 
 <PageTitle>ChatGPT</PageTitle>
 
-<style>
-    .loading-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 20px;
-    }
-
-    .loading {
-        display: inline-block;
-        width: 20px;
-        height: 20px;
-        border: 2px solid #333;
-        border-radius: 50%;
-        animation: loading-animation 0.8s linear infinite;
-    }
-
-    @keyframes loading-animation {
-        0% {
-            transform: scale(1);
-        }
-        50% {
-            transform: scale(1.2);
-        }
-        100% {
-            transform: scale(1);
-        }
-    }
-</style>
-
 <h1>ChatGPT Request</h1>
 
 <form>
@@ -49,8 +19,8 @@
     <button class="btn btn-success" @onclick="SendGptRequestAsync" type="button">Send</button>
 </form>
 
-<div class="loading-container" style="display: @_loadingDisplay;">
-    <div class="loading"></div>
+<div id="loading-container" style="display: @_loadingDisplay;">
+    <div id="loading"></div>
 </div>
 
 @if (!string.IsNullOrEmpty(_responseContent))
@@ -115,4 +85,3 @@
         _loadingDisplay = "none"; // Verstecke die Ladeanimation nach der Antwort
     }
 }
-    
