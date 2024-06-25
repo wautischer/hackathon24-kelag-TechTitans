@@ -2942,19 +2942,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/laurin/.nuget/packages/": {}
+    "/Users/gianlucadebache/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/laurin/RiderProjects/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/AI_Ticketmanager.csproj",
+      "projectUniqueName": "/Users/gianlucadebache/repositories/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/AI_Ticketmanager.csproj",
       "projectName": "AI_Ticketmanager",
-      "projectPath": "/Users/laurin/RiderProjects/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/AI_Ticketmanager.csproj",
-      "packagesPath": "/Users/laurin/.nuget/packages/",
-      "outputPath": "/Users/laurin/RiderProjects/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/obj/",
+      "projectPath": "/Users/gianlucadebache/repositories/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/AI_Ticketmanager.csproj",
+      "packagesPath": "/Users/gianlucadebache/.nuget/packages/",
+      "outputPath": "/Users/gianlucadebache/repositories/Kelag-Hackathon-2024-Team-4/AI_Ticketmanager/AI_Ticketmanager/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/laurin/.nuget/NuGet/NuGet.Config"
+        "/Users/gianlucadebache/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
