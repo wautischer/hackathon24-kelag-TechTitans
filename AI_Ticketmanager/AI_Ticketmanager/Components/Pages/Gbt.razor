@@ -10,6 +10,36 @@
 
 <PageTitle>ChatGPT</PageTitle>
 
+<style>
+    .loading-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .loading {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 2px solid #333;
+        border-radius: 50%;
+        animation: loading-animation 0.8s linear infinite;
+    }
+
+    @keyframes loading-animation {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.2);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+</style>
+
 <h1>ChatGPT Request</h1>
 
 <form>
@@ -18,6 +48,10 @@
 
     <button class="btn btn-success" @onclick="SendGptRequestAsync" type="button">Send</button>
 </form>
+
+<div class="loading-container" style="display: @_loadingDisplay;">
+    <div class="loading"></div>
+</div>
 
 @if (!string.IsNullOrEmpty(_responseContent))
 {
@@ -28,12 +62,13 @@
 @code {
     private readonly RequestModel _requestModel = new RequestModel();
     private string _responseContent = null!;
+    private string _loadingDisplay = "none";
     private const string Prompt = "Deine Aufgabe ist es, Issues zu verwalten. Wenn ein Benutzer ein Problem schildert, musst du Folgendes extrahieren: Erstens, einen aussagekräftigen Titel für das Issue, der klar beschreibt, worum es geht, wobei er nur aus drei bis vier Wörtern bestehen soll. Zweitens, eine kurze Zusammenfassung der übermittelten Beschreibung. Drittens, passende Labels für das Problem, getrennt durch Kommas. Viertens, es soll eine lange und tiefgründige Beschreibung generiert werden, in der das Problem beschrieben wird und steht welche informationen der Benutzer uns gegeben hat und welche nicht. Fünftens, es soll die Priorität bestimmt werden. Zur Auswahl steht: Low, Medium, High, Critical. Verfügbare Labels sind: bug, documentation, question, wontfix, invalid, help wanted. Die drei Punkte sollen mit % getrennt werden. Die einzelnen Punkte sollen nicht nummeriert werden.";
 
-    
-    
     private async Task SendGptRequestAsync()
     {
+        _loadingDisplay = "block"; // Zeige die Ladeanimation
+
         const string url = "https://apim-forstsee-hackathon.azure-api.net/openai-4/gpt4/chat";
         var request = new HttpRequestMessage(HttpMethod.Post, url);
 
@@ -76,6 +111,8 @@
             _responseContent = "Error sending post request";
             Console.WriteLine("Error sending post request");
         }
-    }
 
+        _loadingDisplay = "none"; // Verstecke die Ladeanimation nach der Antwort
+    }
 }
+    
