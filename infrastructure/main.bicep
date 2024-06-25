@@ -85,7 +85,7 @@ resource containerApp 'Microsoft.App/containerApps@2023-05-01' = {
           value: registryToken
         }
         {
-            name: 'passwordDB'
+            name: 'passworddb'
             keyVaultUrl: passwordDBURL
             identity: managedIdentity.id
         }
@@ -112,7 +112,7 @@ resource containerApp 'Microsoft.App/containerApps@2023-05-01' = {
           env: [
             {
               name: 'PASSWORD_DB'
-              secretRef: 'passwordDB'
+              secretRef: 'passworddb'
             }
             {
               name: 'SUB-Key'
