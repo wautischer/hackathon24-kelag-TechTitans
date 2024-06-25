@@ -1,0 +1,116 @@
+@page "/gpt"
+@using System.Reflection.Metadata
+@using System.Security.Principal
+@using System.Text.Json
+@using Org.BouncyCastle.Tls
+@inject HttpClient Http
+@rendermode InteractiveServer
+
+<PageTitle>ChatGPT</PageTitle>
+
+<h1>ChatGPT Request</h1>
+
+<form>
+    <label for="description">Description: </label>
+    <input id="description" @bind="_requestModel.description"/>
+
+    <button class="btn btn-success" @onclick="SendGptRequestAsync" type="button">Send</button>
+</form>
+
+@if (!string.IsNullOrEmpty(_responseContent))
+{
+    <h3>Response:</h3>
+    <p>@_responseContent</p>
+}
+
+@code {
+    private readonly RequestModel _requestModel = new RequestModel();
+    private string _responseContent = null!;
+    private const string Prompt = "Deine Aufgabe ist es, Issues zu verwalten. Wenn ein Benutzer ein Problem schildert, musst du Folgendes extrahieren: Erstens, einen aussagekräftigen Titel für das Issue, der klar beschreibt, worum es geht. Zweitens, eine kurze Zusammenfassung der übermittelten Beschreibung. Drittens, passende Labels für das Problem, getrennt durch Kommas. Verfügbare Labels sind: bug, documentation, question, wontfix, invalid, help wanted. Die drei Punkte sollen mit % getrennt werden. Die einzelen Punkte sollen nicht nummeriert werden.";
+
+    private async Task SendGptRequestAsync()
+    {
+        const string url = "https://apim-forstsee-hackathon.azure-api.net/openai-4/gpt4/chat";
+        var request = new HttpRequestMessage(HttpMethod.Post, url);
+
+        request.Headers.Add("Ocp-Apim-Subscription-Key", "3e236f929eff430d86451d23c6db7b1f");
+        request.Headers.Add("Cache-Control", "no-cache");
+
+        var jsonRequest = new
+        {
+            messages = new object[]
+            {
+                new { role = "system", content = 
+                    Prompt },
+                new { role = "user", content = _requestModel.description }
+            }
+        };
+
+        request.Content = new StringContent(JsonSerializer.Serialize(jsonRequest), System.Text.Encoding.UTF8, "application/json");
+
+        var response = await Http.SendAsync(request);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var responseString = await response.Content.ReadAsStringAsync();
+            var responseObject = JsonSerializer.Deserialize<ChatResponse>(responseString);
+            _responseContent = responseObject?.choices?.FirstOrDefault()?.message?.content ?? "No content in response.";
+            if (!_responseContent.Equals("No content in response."))
+            {
+                var token = _responseContent.Split("%");
+                var title = token[0];
+                var shortDesc = token[1];
+                var labels = token[2];
+                await InsertIssueAsync(title, shortDesc, labels);
+            } 
+        }
+        else
+        {
+            _responseContent = "Error sending post request";
+            Console.WriteLine("Error sending post request");
+        }
+    }
+
+    public class RequestModel
+    {
+        public string description { get; set; }
+    }
+
+    public class ChatResponse
+    {
+        public Choice[] choices { get; set; }
+    }
+
+    public class Choice
+    {
+        public Message message { get; set; }
+    }
+
+    public class Message
+    {
+        public string content { get; set; }
+    }
+    
+    private async Task InsertIssueAsync(String titleU, String bodyU, String lablesU)
+    {
+        const string repoName = "Kelag-Hackathon-2024-Team-4";
+        const string url = $"https://apim-forstsee-hackathon.azure-api.net/github/{repoName}/issues";
+        var request = new HttpRequestMessage(HttpMethod.Post, url);
+
+        request.Headers.Add("Ocp-Apim-Subscription-Key", "3e236f929eff430d86451d23c6db7b1f");
+        request.Headers.Add("Cache-Control", "no-cache");
+
+        var jsonIssue = new
+        {
+            title = titleU,
+            body = bodyU,
+            labels = lablesU.Split(',').Select(label => label.Trim()).ToArray()
+        };
+
+        request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(jsonIssue), System.Text.Encoding.UTF8, "application/json");
+
+        var response = await Http.SendAsync(request);
+
+        Console.WriteLine(response.IsSuccessStatusCode ? "Issue successfully inserted." : "Error inserting issue.");
+    }
+}

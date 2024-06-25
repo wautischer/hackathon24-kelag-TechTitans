@@ -14,6 +14,8 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2ee41e305b78a72b4a56925ff79e8935671810cd")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8354536972652415fcfe8a2d375294c0150e7384")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4a131ba2457f6e37abfb0c0ea8126ebb65013c53")]
 [assembly: System.Reflection.AssemblyProductAttribute("AI_Ticketmanager")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AI_Ticketmanager")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
