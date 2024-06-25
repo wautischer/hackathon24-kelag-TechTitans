@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 public class TicketService
 {
-   private string keyVaultName = Environment.GetEnvironmentVariable("kv-Hackathon-Team-4");
+    private string keyVaultName = Environment.GetEnvironmentVariable("kv-Hackathon-Team-4");
     private string secretName = Environment.GetEnvironmentVariable("passwordDB");
     private string connectionString;
 
@@ -24,7 +24,7 @@ public class TicketService
             throw new InvalidOperationException("Key Vault name or secret name is not set in environment variables.");
         }
 
-        var kvUri = $"https://{keyVaultName}.vault.azure.net";
+        var kvUri = $"https://{keyVaultName}.vault.azure.net/";
         var client = new SecretClient(new Uri(kvUri), new DefaultAzureCredential());
 
         KeyVaultSecret secret = await client.GetSecretAsync(secretName);
