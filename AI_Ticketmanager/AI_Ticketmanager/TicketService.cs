@@ -1,22 +1,23 @@
-using MySql.Data.MySqlClient;
+using Microsoft.Data.SqlClient;
+using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Threading.Tasks;
 
 public class TicketService
 {
-    private string connectionString = "server=sql-hackathon-team4.database.windows.net;database=sqldb-hackathon-team4;user=hackathonTeam4;password=abc#123#";
+    private string connectionString = "Server=tcp:sql-hackathon-team4.database.windows.net,1433;Initial Catalog=sqldb-hackathon-team4;Persist Security Info=False;User ID=hackathonTeam4;Password=abc#123#;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
     public async Task<List<Ticket>> GetTicketsAsync()
     {
         List<Ticket> tickets = new List<Ticket>();
 
-        using (MySqlConnection conn = new MySqlConnection(connectionString))
+        using (SqlConnection conn = new SqlConnection(connectionString))
         {
             try
             {
                 await conn.OpenAsync();
-                MySqlCommand cmd = new MySqlCommand("SELECT id, title, tags, description, created_at FROM dbo.tickets", conn);
+                SqlCommand cmd = new SqlCommand("SELECT id, title, tags, description, created_at FROM dbo.tickets", conn);
                 DbDataReader dbReader = await cmd.ExecuteReaderAsync();
 
                 while (await dbReader.ReadAsync())
@@ -31,10 +32,10 @@ public class TicketService
                     });
                 }
             }
-            catch (MySqlException ex)
+            catch (SqlException ex)
             {
-                // Handle MySQL-specific exceptions
-                Console.WriteLine($"MySQL error: {ex.Message}");
+                // Handle SQL-specific exceptions
+                Console.WriteLine($"SQL error: {ex.Message}");
             }
             catch (Exception ex)
             {
